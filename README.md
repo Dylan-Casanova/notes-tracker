@@ -3,6 +3,9 @@
 # Project Description
 this project was created with the goal of having an application that uses EXPRESS to save, delete and display notes to the browser.
 
+Link to deployed application: https://note-taker-express-unit.herokuapp.com/
+<br>
+
 This is the homescreen of the application
 <br>
 ![homepage](./public/assets/screenshots/homepage.png)
