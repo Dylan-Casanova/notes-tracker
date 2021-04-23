@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "this is an example title",
+    "text": "this is an example of note text"
+  },
+  {
+    "id": 2,
+    "title": "I am going to save this note",
+    "text": "if saved properly, it will appear on the left side under \"this is an example title\" "
+  }
+]
