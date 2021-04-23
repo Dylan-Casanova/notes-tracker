@@ -15,7 +15,9 @@ app.use(express.static('public'));
 //setting routes
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, 'notes.html')));
-
+app.get('/api/notes', (req, res) => {
+    res.sendFile(path.join(__dirname,'db.json'));
+})
 //takes a Json response with keys "title" and "text" 
 // and adds a new note object with that message to the db.json file
 app.post('api/notes',(req, res) => {
@@ -40,29 +42,30 @@ app.post('api/notes',(req, res) => {
 });
 // Deletes the note object with proper id from db.json file, returns the deleted note; 
 //if id null, then returns false
-app.delete('/api/notes/:id', (req, res) => {
-    const delteId = req.params.id;
-    fs.readFile('db.json','utf8',(req, res) => {
-        if (err) {
-            console.log(err);
-        }; 
-        let notes =JSON.parse(res);
-        if(deleteId <= notes.length){
-            //method to remove an element from an array
+app.delete("/api/notes/:id", function(req, res) {
+    const deleteId = req.params.id;
+    fs.readFile("db.json", "utf8", function(error, response) {
+        if (error) {
+            console.log(error);
+        }
+        let notes = JSON.parse(response);
+        if (deleteId <= notes.length) {
+            // Method to remove an element from an array obtained from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
             res.json(notes.splice(deleteId-1,1));
-            // resetting ids for all notes
-            for (let i=0; i<notes.length; i++){
-                notes[i].id = i+1
-            };
-            fs.writeFile('db.json', JSON.stringify(notes,null,2), function(err) {
+            // Reassign the ids of all notes
+            for (let i=0; i<notes.length; i++) {
+                notes[i].id = i+1;
+            }
+            fs.writeFile("db.json", JSON.stringify(notes, null, 2), function(err) {
                 if (err) throw err;
-                console.log(err);
             });
         } else {
             res.json(false);
         }
+        
 
     });
-    //server begins to listen
-    app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
+    
 });
+//starts server
+app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
