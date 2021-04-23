@@ -20,25 +20,25 @@ app.get('/api/notes', (req, res) => {
 })
 //takes a Json response with keys "title" and "text" 
 // and adds a new note object with that message to the db.json file
-app.post('api/notes',(req, res) => {
+app.post("/api/notes", function(req, res) {
     fs.readFile(path.join(__dirname, "db.json"), "utf8", function(error, response) {
         if (error) {
             console.log(error);
         }
-        const notes =JSON.parse(response);
+        const notes = JSON.parse(response);
         const noteRequest = req.body;
         const newNoteId = notes.length + 1;
-        const newNote ={
+        const newNote = {
             id: newNoteId,
             title: noteRequest.title,
-            text: noteRequest.text,
+            text: noteRequest.text
         };
         notes.push(newNote);
-        res.json(newnote);
-        fs.readFile(path.join(__dirname, 'db.json'),JSON.stringify(notes, null,2), function(err){
-        if (err) throw err;
+        res.json(newNote);
+        fs.writeFile(path.join(__dirname, "db.json"), JSON.stringify(notes, null, 2), function(err) {
+            if (err) throw err;
+        });
     });
-});
 });
 // Deletes the note object with proper id from db.json file, returns the deleted note; 
 //if id null, then returns false
